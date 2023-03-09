@@ -10,13 +10,13 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 class index(ListView):
     model = Blog
-    template_name = 'index.html'
+    template_name = 'main/index.html'
     ordering = ['-created_at']
 
-def blogpost(request, pk):
+def blogpost(response, pk):
     blog = Blog.objects.get(id=pk)
-    if request.method == "POST":
-        form = CommentSection(request.POST)
+    if response.method == "POST":
+        form = CommentSection(response.POST)
         if form.is_valid():
             n = form.cleaned_data["name"]
             c = form.cleaned_data["comment"]
@@ -27,20 +27,20 @@ def blogpost(request, pk):
 
     else:
         form = CommentSection()
-    return render(request, 'post.html', {'blog':blog, 'form':form})
+    return render(response, 'posts/post.html', {'blog':blog, 'form':form})
 
 class update(UpdateView):
     model = Blog
-    template_name = 'update.html'
+    template_name = 'posts/update.html'
     form_class = UpdatePost
 
 class create(CreateView):
     model = Blog
-    template_name = 'create.html'
+    template_name = 'main/create.html'
     form_class = CreateNewPost
     success_url = reverse_lazy('index')
 
 class delete(DeleteView):
     model = Blog
-    template_name = 'delete.html'
+    template_name = 'posts/delete.html'
     success_url = reverse_lazy('index')
