@@ -2,11 +2,6 @@ from django import forms
 from .models import Blog, Category, Comment
 
 
-choices = Category.objects.all().values_list('name', 'name')
-choice = []
-for item in choices:
-    choice.append(item)
-
 class CreateNewPost(forms.ModelForm):
     class Meta:
         model = Blog
@@ -15,7 +10,7 @@ class CreateNewPost(forms.ModelForm):
             'title': forms.TextInput(),
             'author': forms.TextInput(attrs={'value':'', 'id':'blogger', 'type':'hidden'}),
             #'author': forms.Select(),
-            'category':forms.Select(choices=choice),
+            #'category':forms.Select(choices=choice),
             'snippet':forms.Textarea(attrs={'rows':15, 'col':45}),
             'body':forms.Textarea(attrs={'rows':15, 'col':45}),
         }
